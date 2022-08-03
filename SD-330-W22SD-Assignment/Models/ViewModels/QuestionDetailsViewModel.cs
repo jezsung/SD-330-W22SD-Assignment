@@ -1,14 +1,31 @@
-﻿namespace SD_330_W22SD_Assignment.Models.ViewModels
+﻿using System.Text;
+
+namespace SD_330_W22SD_Assignment.Models.ViewModels
 {
     public class QuestionDetailsViewModel
     {
         public Question Question { get; set; }
         public List<Answer> Answers { get; set; }
+        public List<Tag> Tags { get; set; }
 
-        public QuestionDetailsViewModel(Question question, List<Answer> answers)
+        public string TagsString
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach(var tag in Tags)
+                {
+                    sb.Append(tag.Name + ", ");
+                }
+                return sb.ToString();
+            }
+        }
+
+        public QuestionDetailsViewModel(Question question, List<Answer> answers, List<Tag> tags)
         {
             Question = question;
             Answers = answers;
+            Tags = tags;
         }
     }
 }

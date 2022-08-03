@@ -27,6 +27,8 @@ namespace SD_330_W22SD_Assignment.Models
 
         public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
+        public virtual ICollection<QuestionTag> QuestionTags { get; set; } = new List<QuestionTag>();
+
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

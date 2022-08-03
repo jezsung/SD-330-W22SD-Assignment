@@ -35,6 +35,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Question.User.Id)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Question.Tags)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TagsString)
+        </dd>
     </dl>
 </div>
 

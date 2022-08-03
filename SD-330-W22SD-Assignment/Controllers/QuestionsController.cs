@@ -64,7 +64,8 @@ namespace SD_330_W22SD_Assignment.Controllers
                 return NotFound();
             }
 
-            var vm = new QuestionDetailsViewModel(question, question.Answers.ToList());
+            var tags = _context.QuestionTags.Include(qt => qt.Tag).Where(qt => qt.QuestionId == id).Select(qt => qt.Tag).ToList();
+            var vm = new QuestionDetailsViewModel(question, question.Answers.ToList(), tags);
 
             return View(vm);
         }
