@@ -1,0 +1,73 @@
+﻿@model SD_330_W22SD_Assignment.Models.ViewModels.QuestionsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<p>
+    <a asp-action="Index" asp-route-SortOrder=0>Sort by Date</a> |
+    <a asp-action="Index" asp-route-SortOrder=1>Sort by Most Answer</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Body
+            </th>
+            <th>
+                CreatedAt
+            </th>
+            <th>
+                User
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Questions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="Create" asp-route-controller="Answers" asp-route-questionId="@item.Id">Answer this question</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (Model.CurrentPage > 1)
+{
+    <a asp-action="Index" asp-route-Page=@(Model.CurrentPage - 1)>Previous Page</a>
+}
+<div>@Model.CurrentPage</div>
+@if (Model.CurrentPage < Model.MaxPage)
+{
+    <a asp-action="Index" asp-route-Page=@(Model.CurrentPage + 1)>Next Page</a>
+}
+
+

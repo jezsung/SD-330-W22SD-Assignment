@@ -12,7 +12,7 @@ using SD_330_W22SD_Assignment.Data;
 namespace SD_330_W22SD_Assignment.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220731173130_AddModels")]
+    [Migration("20220802214157_AddModels")]
     partial class AddModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -305,7 +305,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Question", b =>
@@ -336,6 +336,21 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("SD_330_W22SD_Assignment.Models.QuestionTag", b =>
+                {
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuestionId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("QuestionTags");
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Tag", b =>
@@ -443,11 +458,11 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Comment", b =>
                 {
                     b.HasOne("SD_330_W22SD_Assignment.Models.Answer", "Answer")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("AnswerId");
 
                     b.HasOne("SD_330_W22SD_Assignment.Models.Question", "Question")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("QuestionId");
 
                     b.HasOne("SD_330_W22SD_Assignment.Models.ApplicationUser", "User")
@@ -474,6 +489,30 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SD_330_W22SD_Assignment.Models.QuestionTag", b =>
+                {
+                    b.HasOne("SD_330_W22SD_Assignment.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SD_330_W22SD_Assignment.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Answer", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Answers");
@@ -486,6 +525,8 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Question", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

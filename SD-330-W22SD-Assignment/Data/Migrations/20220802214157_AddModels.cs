@@ -73,31 +73,31 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuestionTag",
+                name: "QuestionTags",
                 columns: table => new
                 {
-                    QuestionsId = table.Column<int>(type: "int", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    TagId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuestionTag", x => new { x.QuestionsId, x.TagsId });
+                    table.PrimaryKey("PK_QuestionTags", x => new { x.QuestionId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_QuestionTag_Questions_QuestionsId",
-                        column: x => x.QuestionsId,
+                        name: "FK_QuestionTags_Questions_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_QuestionTag_Tags_TagsId",
-                        column: x => x.TagsId,
+                        name: "FK_QuestionTags_Tags_TagId",
+                        column: x => x.TagId,
                         principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -110,20 +110,20 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Answers_AnswerId",
+                        name: "FK_Comments_Answers_AnswerId",
                         column: x => x.AnswerId,
                         principalTable: "Answers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserId",
+                        name: "FK_Comments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Questions_QuestionId",
+                        name: "FK_Comments_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id");
@@ -140,18 +140,18 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_AnswerId",
-                table: "Comment",
+                name: "IX_Comments_AnswerId",
+                table: "Comments",
                 column: "AnswerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_QuestionId",
-                table: "Comment",
+                name: "IX_Comments_QuestionId",
+                table: "Comments",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserId",
-                table: "Comment",
+                name: "IX_Comments_UserId",
+                table: "Comments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -160,18 +160,18 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionTag_TagsId",
-                table: "QuestionTag",
-                column: "TagsId");
+                name: "IX_QuestionTags_TagId",
+                table: "QuestionTags",
+                column: "TagId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "QuestionTag");
+                name: "QuestionTags");
 
             migrationBuilder.DropTable(
                 name: "Answers");

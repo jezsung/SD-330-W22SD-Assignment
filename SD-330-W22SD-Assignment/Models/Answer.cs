@@ -25,5 +25,7 @@ namespace SD_330_W22SD_Assignment.Models
 
         [ForeignKey("QuestionId")]
         public virtual Question Question { get; set; } = null!;
+
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

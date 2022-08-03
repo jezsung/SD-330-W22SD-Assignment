@@ -1,0 +1,8 @@
+﻿@model SD_330_W22SD_Assignment.Models.Answer
+
+<form asp-action="Create" asp-route-questionId="@ViewBag.QuestionId">
+    <textarea name="body" style="overflow:auto;resize:none" rows="4"></textarea>
+    <div>
+        <button type="submit">Answer</button>
+    </div>
+</form>
