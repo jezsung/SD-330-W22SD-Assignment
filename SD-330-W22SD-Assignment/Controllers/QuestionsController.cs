@@ -78,6 +78,12 @@ namespace SD_330_W22SD_Assignment.Controllers
         public async Task<IActionResult> Upvote(int QuestionId)
         {
             var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+            var questioner = (await _context.Questions.Include(q => q.User).FirstAsync(q => q.Id == QuestionId)).User!;
+
+            if (user.Id == questioner.Id)
+            {
+                return BadRequest();
+            }
 
             var existingVote = await _context.Votes.FirstOrDefaultAsync(v => v.QuestionId == QuestionId && v.UserId == user.Id);
 
@@ -86,11 +92,15 @@ namespace SD_330_W22SD_Assignment.Controllers
                 if (existingVote.Up)
                 {
                     _context.Remove(existingVote);
+                    questioner.Reputation -= 5;
+                    _context.Update(questioner);
                 }
                 else
                 {
                     existingVote.Up = true;
                     _context.Update(existingVote);
+                    questioner.Reputation += 10;
+                    _context.Update(questioner);
                 }
             }
             else
@@ -100,6 +110,8 @@ namespace SD_330_W22SD_Assignment.Controllers
                 vote.UserId = user.Id;
                 vote.Up = true;
                 await _context.AddAsync(vote);
+                questioner.Reputation += 5;
+                _context.Update(questioner);
             }
 
             await _context.SaveChangesAsync();
@@ -111,6 +123,12 @@ namespace SD_330_W22SD_Assignment.Controllers
         public async Task<IActionResult> Downvote(int QuestionId)
         {
             var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+            var questioner = (await _context.Questions.Include(q => q.User).FirstAsync(q => q.Id == QuestionId)).User!;
+
+            if (user.Id == questioner.Id)
+            {
+                return BadRequest();
+            }
 
             var existingVote = await _context.Votes.FirstOrDefaultAsync(v => v.QuestionId == QuestionId && v.UserId == user.Id);
 
@@ -120,10 +138,14 @@ namespace SD_330_W22SD_Assignment.Controllers
                 {
                     existingVote.Up = false;
                     _context.Update(existingVote);
+                    questioner.Reputation -= 10;
+                    _context.Update(questioner);
                 }
                 else
                 {
                     _context.Remove(existingVote);
+                    questioner.Reputation += 5;
+                    _context.Update(questioner);
                 }
             }
             else
@@ -133,6 +155,8 @@ namespace SD_330_W22SD_Assignment.Controllers
                 vote.UserId = user.Id;
                 vote.Up = false;
                 await _context.AddAsync(vote);
+                questioner.Reputation -= 5;
+                _context.Update(questioner);
             }
 
             await _context.SaveChangesAsync();
