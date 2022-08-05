@@ -9,6 +9,7 @@ namespace SD_330_W22SD_Assignment.Models
         public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
         public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
 
         public ApplicationUser() : base()
         {

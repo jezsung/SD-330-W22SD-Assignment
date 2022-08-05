@@ -7,6 +7,16 @@
 
 <h1>Details</h1>
 
+<form asp-action="Upvote" asp-controller="Questions" asp-route-QuestionId=@Model.Question.Id>
+    <button type="submit">Upvote</button>
+</form>
+
+<div>@Model.VoteCount</div>
+
+<form asp-action="Downvote" asp-controller="Questions" asp-route-QuestionId=@Model.Question.Id>
+    <button type="submit">Downvote</button>
+</form>
+
 <div>
     <h4>Question</h4>
     <hr />

@@ -30,5 +30,7 @@ namespace SD_330_W22SD_Assignment.Models
         public virtual ICollection<QuestionTag> QuestionTags { get; set; } = new List<QuestionTag>();
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+        public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
     }
 }

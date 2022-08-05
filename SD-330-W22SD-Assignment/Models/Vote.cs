@@ -11,6 +11,9 @@ namespace SD_330_W22SD_Assignment.Models
         [Required]
         public string UserId { get; set; } = null!;
 
+        [Required]
+        public bool Up { get; set; }
+
         [ForeignKey("QuestionId")]
         public virtual Question Question { get; set; } = null!;
 

@@ -10,7 +10,8 @@ namespace SD_330_W22SD_Assignment.Data
         public DbSet<Answer> Answers { get; set; } = null!;
         public DbSet<Comment> Comments { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
-        public DbSet<QuestionTag> QuestionTags { get; set; } = null!; 
+        public DbSet<QuestionTag> QuestionTags { get; set; } = null!;
+        public DbSet<Vote> Votes { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -57,6 +57,7 @@ namespace SD_330_W22SD_Assignment.Controllers
                 .Include(q => q.Answers)
                 .ThenInclude(a => a.Comments)
                 .Include(q => q.Comments)
+                .Include(q => q.Votes)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (question == null)
@@ -65,9 +66,76 @@ namespace SD_330_W22SD_Assignment.Controllers
             }
 
             var tags = _context.QuestionTags.Include(qt => qt.Tag).Where(qt => qt.QuestionId == id).Select(qt => qt.Tag).ToList();
-            var vm = new QuestionDetailsViewModel(question, question.Answers.ToList(), tags);
+            var voteCount = question.Votes.Count(v => v.Up) - question.Votes.Count(v => !v.Up);
+            var vm = new QuestionDetailsViewModel(question, voteCount, question.Answers.ToList(), tags);
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Upvote(int QuestionId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+
+            var existingVote = await _context.Votes.FirstOrDefaultAsync(v => v.QuestionId == QuestionId && v.UserId == user.Id);
+
+            if (existingVote != null)
+            {
+                if (existingVote.Up)
+                {
+                    _context.Remove(existingVote);
+                }
+                else
+                {
+                    existingVote.Up = true;
+                    _context.Update(existingVote);
+                }
+            }
+            else
+            {
+                var vote = new Vote();
+                vote.QuestionId = QuestionId;
+                vote.UserId = user.Id;
+                vote.Up = true;
+                await _context.AddAsync(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = QuestionId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Downvote(int QuestionId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+
+            var existingVote = await _context.Votes.FirstOrDefaultAsync(v => v.QuestionId == QuestionId && v.UserId == user.Id);
+
+            if (existingVote != null)
+            {
+                if (existingVote.Up)
+                {
+                    existingVote.Up = false;
+                    _context.Update(existingVote);
+                }
+                else
+                {
+                    _context.Remove(existingVote);
+                }
+            }
+            else
+            {
+                var vote = new Vote();
+                vote.QuestionId = QuestionId;
+                vote.UserId = user.Id;
+                vote.Up = false;
+                await _context.AddAsync(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = QuestionId });
         }
 
         // GET: Questions/Create
