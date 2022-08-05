@@ -56,6 +56,8 @@ namespace SD_330_W22SD_Assignment.Controllers
                 .Include(q => q.User)
                 .Include(q => q.Answers)
                 .ThenInclude(a => a.Comments)
+                .Include(q => q.Answers)
+                .ThenInclude(a => a.Votes)
                 .Include(q => q.Comments)
                 .Include(q => q.Votes)
                 .FirstOrDefaultAsync(m => m.Id == id);

@@ -70,6 +70,16 @@
     @foreach (var answer in Model.Answers)
     {
         <li>
+
+            <form asp-action="Upvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
+                <button type="submit">Upvote</button>
+            </form>
+
+            <div>@(answer.Votes.Count(v => v.Up) - answer.Votes.Count(v => !v.Up))</div>
+
+            <form asp-action="Downvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
+                <button type="submit">Downvote</button>
+            </form>
             @answer.Body - @answer.CreatedAt
             <br />
             <form asp-action="AddCommentToAnswer" asp-controller="Comments" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>

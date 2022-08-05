@@ -27,5 +27,7 @@ namespace SD_330_W22SD_Assignment.Models
         public virtual Question Question { get; set; } = null!;
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+        public virtual ICollection<AnswerVote> Votes { get; set; } = new List<AnswerVote>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SD_330_W22SD_Assignment.Data;
 using SD_330_W22SD_Assignment.Models;
 
@@ -39,6 +40,72 @@ namespace SD_330_W22SD_Assignment.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Questions");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Upvote(int QuestionId, int AnswerId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+
+            var existingVote = await _context.AnswerVotes.FirstOrDefaultAsync(v => v.AnswerId == AnswerId && v.UserId == user.Id);
+
+            if (existingVote != null)
+            {
+                if (existingVote.Up)
+                {
+                    _context.Remove(existingVote);
+                }
+                else
+                {
+                    existingVote.Up = true;
+                    _context.Update(existingVote);
+                }
+            }
+            else
+            {
+                var vote = new AnswerVote();
+                vote.AnswerId = AnswerId;
+                vote.UserId = user.Id;
+                vote.Up = true;
+                await _context.AddAsync(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Questions", new { id = QuestionId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Downvote(int QuestionId, int AnswerId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.UserName == User.Identity!.Name);
+
+            var existingVote = await _context.AnswerVotes.FirstOrDefaultAsync(v => v.AnswerId == AnswerId && v.UserId == user.Id);
+
+            if (existingVote != null)
+            {
+                if (existingVote.Up)
+                {
+                    existingVote.Up = false;
+                    _context.Update(existingVote);
+                }
+                else
+                {
+                    _context.Remove(existingVote);
+                }
+            }
+            else
+            {
+                var vote = new AnswerVote();
+                vote.AnswerId = AnswerId;
+                vote.UserId = user.Id;
+                vote.Up = false;
+                await _context.AddAsync(vote);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Questions", new { id = QuestionId });
         }
     }
 }

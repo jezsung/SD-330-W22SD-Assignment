@@ -14,7 +14,7 @@ namespace SD_330_W22SD_Assignment.Models.ViewModels
             get
             {
                 StringBuilder sb = new StringBuilder();
-                foreach(var tag in Tags)
+                foreach (var tag in Tags)
                 {
                     sb.Append(tag.Name + ", ");
                 }
