@@ -171,7 +171,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("QuestionTag");
+                    b.ToTable("QuestionTag", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Answer", b =>
@@ -202,7 +202,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.AnswerVote", b =>
@@ -220,7 +220,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AnswerVotes");
+                    b.ToTable("AnswerVotes", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.ApplicationUser", b =>
@@ -324,7 +324,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Question", b =>
@@ -359,7 +359,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.QuestionTag", b =>
@@ -374,7 +374,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("QuestionTags");
+                    b.ToTable("QuestionTags", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Tag", b =>
@@ -391,7 +391,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("SD_330_W22SD_Assignment.Models.Vote", b =>
@@ -409,7 +409,7 @@ namespace SD_330_W22SD_Assignment.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

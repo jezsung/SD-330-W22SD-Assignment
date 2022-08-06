@@ -17,7 +17,7 @@ namespace SD_330_W22SD_Assignment.Models
         [Required]
         public string UserId { get; set; } = null!;
 
-        public int? QuestionId { get; set; }
+        public int QuestionId { get; set; }
 
         public int? AnswerId { get; set; }
 
