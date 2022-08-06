@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SD_330_W22SD_Assignment.Data;
 using SD_330_W22SD_Assignment.Models;
 
 namespace SD_330_W22SD_Assignment.Controllers
 {
+    [Authorize]
     public class AnswersController : Controller
     {
         private readonly ApplicationDbContext _context;

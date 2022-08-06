@@ -22,7 +22,7 @@ namespace SD_330_W22SD_Assignment.Controllers
             _context = context;
         }
 
-        // GET: Questions
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int Page = 1, int SortOrder = 0)
         {
             List<Question> questions;
@@ -44,7 +44,7 @@ namespace SD_330_W22SD_Assignment.Controllers
             return View(vm);
         }
 
-        // GET: Questions/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Questions == null)
