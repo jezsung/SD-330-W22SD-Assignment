@@ -60,6 +60,7 @@ namespace SD_330_W22SD_Assignment.Controllers
                 .ThenInclude(a => a.Votes)
                 .Include(q => q.Comments)
                 .Include(q => q.Votes)
+                .Include(q => q.CorrectAnswer)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (question == null)
@@ -67,9 +68,19 @@ namespace SD_330_W22SD_Assignment.Controllers
                 return NotFound();
             }
 
+            List<Answer> answers;
+            if (question.CorrectAnswerId != null)
+            {
+                answers = question.Answers.Where(a => a.Id != question.CorrectAnswerId).Prepend(question.CorrectAnswer).ToList() as List<Answer>;
+            }
+            else
+            {
+                answers = question.Answers.ToList();
+            }
+
             var tags = _context.QuestionTags.Include(qt => qt.Tag).Where(qt => qt.QuestionId == id).Select(qt => qt.Tag).ToList();
             var voteCount = question.Votes.Count(v => v.Up) - question.Votes.Count(v => !v.Up);
-            var vm = new QuestionDetailsViewModel(question, voteCount, question.Answers.ToList(), tags);
+            var vm = new QuestionDetailsViewModel(question, voteCount, answers, tags);
 
             return View(vm);
         }

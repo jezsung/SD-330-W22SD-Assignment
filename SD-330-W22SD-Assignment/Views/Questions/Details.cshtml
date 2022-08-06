@@ -71,16 +71,34 @@
     {
         <li>
 
-            <form asp-action="Upvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
-                <button type="submit">Upvote</button>
-            </form>
+            @if (answer.Id == Model.Question.CorrectAnswerId)
+            {
+                <p>
+                    *Marked as correct*
+                </p>
+            }
+            else
+            {
+                <p>
+                    <form asp-action="MarkCorrect" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
+                        <button type="submit">Mark Correct</button>
+                    </form>
+                </p>
+            }
+            <p>
+                <form asp-action="Upvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
+                    <button type="submit">Upvote</button>
+                </form>
 
-            <div>@(answer.Votes.Count(v => v.Up) - answer.Votes.Count(v => !v.Up))</div>
+                <div>@(answer.Votes.Count(v => v.Up) - answer.Votes.Count(v => !v.Up))</div>
 
-            <form asp-action="Downvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
-                <button type="submit">Downvote</button>
-            </form>
-            @answer.Body - @answer.CreatedAt
+                <form asp-action="Downvote" asp-controller="Answers" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
+                    <button type="submit">Downvote</button>
+                </form>
+            </p>
+            <p>
+                @answer.Body - @answer.CreatedAt
+            </p>
             <br />
             <form asp-action="AddCommentToAnswer" asp-controller="Comments" asp-route-QuestionId=@Model.Question.Id asp-route-AnswerId=@answer.Id>
                 <textarea name="Body" style="overflow:auto;resize:none" rows="4"></textarea>

@@ -24,6 +24,7 @@ namespace SD_330_W22SD_Assignment.Models
         public virtual ApplicationUser User { get; set; } = null!;
 
         [ForeignKey("QuestionId")]
+        [InverseProperty("Answers")]
         public virtual Question Question { get; set; } = null!;
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

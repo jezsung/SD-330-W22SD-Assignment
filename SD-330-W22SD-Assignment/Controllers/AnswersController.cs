@@ -131,5 +131,29 @@ namespace SD_330_W22SD_Assignment.Controllers
 
             return RedirectToAction("Details", "Questions", new { id = QuestionId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkCorrect(int QuestionId, int AnswerId)
+        {
+            var question = await _context.Questions.Include(q => q.User).FirstOrDefaultAsync(q => q.Id == QuestionId);
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
+
+            if (question == null || currentUser == null)
+            {
+                return BadRequest();
+            }
+
+            if(currentUser.Id != question.UserId)
+            {
+                return BadRequest("Only questioner can mark an answer as correct");
+            }
+
+            question.CorrectAnswerId = AnswerId;
+
+            _context.Update(question);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Questions", new { id = QuestionId });
+        }
     }
 }
